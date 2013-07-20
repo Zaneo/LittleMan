@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LittleManCompiler", "LittleManCompiler\LittleManCompiler.csproj", "{9A90A72F-555F-4C84-A2FC-48ECBC4193F7}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2FCACBF6-67BF-459E-8A7F-9F369CA6DC98} = {2FCACBF6-67BF-459E-8A7F-9F369CA6DC98}
