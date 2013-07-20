@@ -1,4 +1,6 @@
-﻿// The MIT License (MIT)
+﻿// Maing body is under:
+//
+// The MIT License (MIT)
 //
 // Copyright (c) 2013 Gareth Higgins
 //
@@ -19,17 +21,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using LittleMan.IO;
-
-namespace LittleMan {
-    class Program {
-        static void Main(string[] args) {
-            InputHandler test = new InputHandler(ProgramType.Computer);
-            test.HandleArgs(args);
-        }
-    }
-}
+//
+// Additional licenses include:
+//
+// Copyright 2009, 2010, 2011 Matvei Stefarov <me@matvei.org>
+// Creative Commons BY-NC-SA
+// http://creativecommons.org/licenses/by-nc-sa/3.0/
+//
+//		->Paths.cs
+//		->MonoCompat.cs
+//		->Utils.cs\EnumUtils

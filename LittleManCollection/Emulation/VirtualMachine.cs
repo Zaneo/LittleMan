@@ -1,14 +1,29 @@
-﻿// Copyright 2011 Gareth Higgins <Gareth.higgins@sympatico.ca>
-// Creative Commons BY-NC-SA
-// http://creativecommons.org/licenses/by-nc-sa/3.0/
+// The MIT License (MIT)
+//
+// Copyright (c) 2013 Gareth Higgins
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading;
 using System.ComponentModel;
-using LittleMan;
+using System.IO;
+using System.Threading;
 using LittleMan.IO;
 
 namespace LittleMan.Emulation {
@@ -32,56 +47,56 @@ namespace LittleMan.Emulation {
         
         short[] _enviroment = new short[7];
 
-        [BrowsableAttribute(false)]
+        [Browsable(false)]
         public readonly object syncRoot;
-        [BrowsableAttribute(false)]
+        [Browsable(false)]
         public Memory Memory { get { return _memory; } private set { _memory = value; } }
 
-        [ReadOnlyAttribute(false),
-        CategoryAttribute("IO"),
-        DescriptionAttribute("The input for the program")]
+        [ReadOnly(false),
+        Category("IO"),
+        Description("The input for the program")]
         public short Input { get { return _enviroment[0]; } set { _enviroment[0] = value; } }
         
-       [ReadOnlyAttribute(true),
-        CategoryAttribute("IO"),
-        DescriptionAttribute("The output for the program")] 
+       [ReadOnly(true),
+        Category("IO"),
+        Description("The output for the program")] 
         public short Output { get { return _enviroment[1]; } private set { _enviroment[1] = value; } }
         
-       [ReadOnlyAttribute(true),
-        CategoryAttribute("Enviroment"),
-        DescriptionAttribute("The current position within the memory")]
+       [ReadOnly(true),
+        Category("Enviroment"),
+        Description("The current position within the memory")]
         public ushort ProgramCounter { get { return (ushort)_enviroment[2]; } private set { _enviroment[2] = (short)value; } }
         
-       [ReadOnlyAttribute(true),
-        CategoryAttribute("Enviroment"),
-        DescriptionAttribute("Value currently in the accumulator")]
+       [ReadOnly(true),
+        Category("Enviroment"),
+        Description("Value currently in the accumulator")]
         public short Accumulator { get { return _enviroment[3]; } private set { _enviroment[3] = value; } }
         
-       [ReadOnlyAttribute(false),
-        CategoryAttribute("Enviroment"),
-        DescriptionAttribute("Currently loaded memory address")]
+       [ReadOnly(false),
+        Category("Enviroment"),
+        Description("Currently loaded memory address")]
         public ushort MemoryAddress { get { return (ushort)_enviroment[4]; } set { _enviroment[4] = (short)value; MemoryValue = RequestMemVal(value); } }
         
-       [ReadOnlyAttribute(false),
-        CategoryAttribute("Enviroment"),
-        DescriptionAttribute("Currently loaded memory value")]
+       [ReadOnly(false),
+        Category("Enviroment"),
+        Description("Currently loaded memory value")]
         public short MemoryValue { get { return _enviroment[5]; } set { _enviroment[4] = value; SetMemory(MemoryAddress, (ushort)value); } }
         
-       [ReadOnlyAttribute(false),
-        CategoryAttribute("Exception"),
-        DescriptionAttribute("If an overlow operation occured")]
+       [ReadOnly(false),
+        Category("Exception"),
+        Description("If an overlow operation occured")]
         public bool Overflow { get { return _enviroment[6] > 0 ? true : false; } private set { _enviroment[6] = (short)(value == true ? 1 : 0); } }
 
 
-       [ReadOnlyAttribute(false),
-        CategoryAttribute("Exception"),
-        DescriptionAttribute("If an overlow operation occured")]       
+       [ReadOnly(false),
+        Category("Exception"),
+        Description("If an overlow operation occured")]       
         public bool Completed { get { return _done; } }
 
-        [BrowsableAttribute(false)]
+        [Browsable(false)]
         public IHumanInterface IOInterface { get; private set; }
 
-        [BrowsableAttribute(false)]
+        [Browsable(false)]
         private ManualResetEvent waitOn;
 
         Exception innerException;

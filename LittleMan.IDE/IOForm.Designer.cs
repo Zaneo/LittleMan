@@ -1,5 +1,4 @@
 ﻿using LittleMan.IO;
-using LittleMan.Emulation;
 
 namespace LittleMan.IDE {
     partial class IOForm {

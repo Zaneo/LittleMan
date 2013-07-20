@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+// Copyright 2009, 2010, 2011, 2012, 2013 Matvei Stefarov <me@matvei.org>
+// Creative Commons BY-NC-SA
+// http://creativecommons.org/licenses/by-nc-sa/3.0/
+
+using System;
 
 namespace LittleMan.Util {
     public static class EnumUtil {

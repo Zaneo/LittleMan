@@ -71,20 +71,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compilation.cs" />
+    <Compile Include="Compilation\Compilation.cs" />
     <Compile Include="Core.cs" />
-    <Compile Include="InputOutput\Arguments.cs" />
-    <Compile Include="InputOutput\ArgumentHandler.cs" />
-    <Compile Include="InputOutput\IHumanInterface.cs" />
+    <Compile Include="Emulation\VirtualMachine.cs" />
     <Compile Include="Intepretation.cs" />
+    <Compile Include="IO\ArgumentHandler.cs" />
+    <Compile Include="IO\Arguments.cs" />
+    <Compile Include="IO\IHumanInterface.cs" />
     <Compile Include="MonoCompat.cs" />
     <Compile Include="Paths.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Util.cs" />
-    <Compile Include="VirtualMachine.cs" />
+    <Compile Include="Util\Util.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="license.htm">
+    <Content Include="license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
