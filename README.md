@@ -30,14 +30,25 @@ A 4 bit instructions is used, with at 12 bit addressing scheme, packed into 16 b
 Terms with an x after them take an address.
 
 0:  END  - Stop executing the current program.
+
 1:  ADDx - Add the value at x to accumulator.
+
 2:  SUBx - Subtract the accumulator by x.
+
 3:  STAx - Store the acummulator at x.
+
 4:  LDAx - Store the value at x, in the accumulator.
+
 5:  BRAx - If x is zero, branch to the value in the accumulator, otherwise branch to x.
+
 6:  BRPx - If accumulator is Positive or Zero, branch to x.
+
 7:  BRZx - If accumulator is Zero, branch to x.
+
 8:  INP  - Read input and store in accumulator, input is a ushort.
+
 9:  OUT  - Write accumulator to output.
+
 10: DAT  - Specifies variable declaration.
+
 15: STR  - Signifies program start, always appears in the zero memory location.
