@@ -86,10 +86,11 @@ namespace LittleMan.IDE {
 
             EnvGrid.SelectedObject = vm;
             //dataGridView1.DataSource = vm.Memory;
+            /*
             InputHandler test = new InputHandler(ProgramType.Compiler);
             test.HandleArgs(new string[] { "code.txt" });
             vm.OutputPath = "code.txt";
-            compiler.SetProperties(ref test);
+            compiler.SetProperties(ref test); */
 
             buildform.CreateControl();
             ioform.CreateControl();
@@ -108,6 +109,7 @@ namespace LittleMan.IDE {
             }
         }
 
+        /*
         private void Form1_Load(object sender, EventArgs e) {
             buildform = new BuildForm();
             ioform = new IOForm();
@@ -141,7 +143,7 @@ namespace LittleMan.IDE {
             buildform.CreateControl();
             ioform.CreateControl();
             CodeHit = true;
-        }
+        }*/
 
         private void dataGridView1_Scroll(object sender, ScrollEventArgs e) {
             if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
@@ -177,7 +179,7 @@ namespace LittleMan.IDE {
             comHandler.HandleArgs(new string[] { Path.Combine(Paths.CompiledDirectory, "obj.stp") });
             comHandler.outputName = Path.Combine(Paths.CompiledDirectory, Paths.DefaultCompiledFileName);
             compiler.SetProperties(ref comHandler);
-
+            compiler.CompileAll();
             File.WriteAllBytes(compiler.OutputPath, compiler.GetSourceAsRaw());
 
             //compiler.SetSource(CodeBox.Text.Split(new string[]{});
@@ -209,8 +211,7 @@ namespace LittleMan.IDE {
                 return;
             }
             vm.SetProgram(compiler.GetSource());
-            vmThread = new Thread(delegate() { vm.ExecuteAll(false); });
-            vmThread.Name = "VirtualMachineThread";
+            vmThread = new Thread(() => vm.ExecuteAll(false)) {Name = "VirtualMachineThread"};
             vmThread.Start();
             //vm.ExecuteAll();
         }
@@ -221,8 +222,7 @@ namespace LittleMan.IDE {
                 return;
             }
             vm.SetProgram(compiler.GetSource());
-            vmThread = new Thread(delegate() { vm.ExecuteAll(true); });
-            vmThread.Name = "VirtualMachineThread";
+            vmThread = new Thread(() => vm.ExecuteAll(true)) {Name = "VirtualMachineThread"};
             vmThread.Start();
         }
     }

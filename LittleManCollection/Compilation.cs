@@ -17,7 +17,9 @@ namespace LittleMan.Compilation {
         Instruction _intr;
         IHumanInterface IOInterface;
 
-        public string OutputPath;
+        private InputHandler handler;
+
+        public string OutputPath { get; private set; }
 
         readonly char[] splitCharacter = new char[] { ' ' };
         string[] _source;
@@ -27,7 +29,9 @@ namespace LittleMan.Compilation {
         ushort _extraVariables;
 
         public bool IsComplete { get; private set; }
+
         public bool SteppedMode { get; private set; }
+        public bool RunAfterCompile { get; private set; }
 
         Dictionary<string, List<ushort>> unlinkedSymbols;
         Dictionary<string, List<ushort>> unlinkedVariables;
@@ -44,51 +48,35 @@ namespace LittleMan.Compilation {
         }
 
         public void SetProperties(ref InputHandler handler) {
-            int endingLocation;
-            string text;
-
+            SteppedMode = handler.StepThrough;
+            RunAfterCompile = handler.RunAfterCompile;
             OutputPath = handler.outputName;
 
-            using (StreamReader reader = new StreamReader(handler.InputMethod.GetInput(handler.InputTypePayload))) {
+            string text;
+            int endingLocation;
+
+            using (StreamReader reader = new StreamReader(handler.InputMethod.GetInput(handler.InputTypePayload)))
+            {
                 text = reader.ReadToEnd();
             }
             endingLocation = text.IndexOf(MonoCompat.UnixLineEnding);
-            if (endingLocation > text.Length - 2) {
+            if (endingLocation > text.Length - 2)
+            {
                 throw new InvalidDataException("Source was too short");
                 //log and error
             }
-
-            if (text.Substring((endingLocation + 2), 2).CompareTo(MonoCompat.WindowsExtraEnding) == 1) {
-                SetSource(text.Split(new string[] { MonoCompat.UnixLineEnding + MonoCompat.WindowsExtraEnding }, StringSplitOptions.RemoveEmptyEntries));
+            if (endingLocation == -1) {
+                //log expected line ending found none
+                SetSource(new string[]{text});
             }
-            else {
+            else if (text.Substring((endingLocation + 2), 2).CompareTo(MonoCompat.WindowsExtraEnding) == 1)
+            {
+                SetSource(text.Split(new string[] { MonoCompat.UnixLineEnding + MonoCompat.WindowsExtraEnding },
+                                     StringSplitOptions.RemoveEmptyEntries));
+            }
+            else
+            {
                 SetSource(text.Split(new string[] { MonoCompat.UnixLineEnding }, StringSplitOptions.RemoveEmptyEntries));
-            }
-            SteppedMode = handler.StepThrough;
-            if (SteppedMode) {
-                try {
-                    CompileStep();
-                }
-                catch (Exception e) {
-                    IOInterface.Output("[ "+ _counter +" ] " + e.Message);
-                    return;
-                }
-
-                IOInterface.Advance();
-            }
-            else {
-                try {
-                    CompileAll();
-                }
-                catch (Exception e) {
-                    IOInterface.Output("[ " + _counter + " ] " + e.Message);
-                    return;
-                }
-            }
-            IOInterface.Output("Build Succeeded");
-            if (handler.RunAfterCompile) {
-                // Link filename output or text to new locations
-                Process.Start(Paths.ComputerFilePath, string.Format("-I File {0}", OutputPath));
             }
         }
 
@@ -161,6 +149,12 @@ namespace LittleMan.Compilation {
             }
             LinkAllVariablesandSymbols();
             IsComplete = true;
+            IOInterface.Output("Build Succeeded");
+            if (RunAfterCompile)
+            {
+                // Link filename output or text to new locations
+                Process.Start(Paths.ComputerFilePath, string.Format("-I File {0}", OutputPath));
+            }
         }
 
         /// <summary>
@@ -178,6 +172,12 @@ namespace LittleMan.Compilation {
             else {
                 LinkAllVariablesandSymbols();
                 IsComplete = true;
+            }
+            IOInterface.Output("Build Succeeded");
+            if (RunAfterCompile)
+            {
+                // Link filename output or text to new locations
+                Process.Start(Paths.ComputerFilePath, string.Format("-I File {0}", OutputPath));
             }
         }
 
@@ -241,6 +241,9 @@ namespace LittleMan.Compilation {
         void LinkAllVariablesandSymbols() {
 
             ushort index = (ushort)_memory.Length;
+            if (extraVariablesLocation.Count == 0)
+                return;
+
             Array.Resize(ref _memory, _memory.Length + _extraVariables);
 
             foreach (var item in unlinkedVariables) {
