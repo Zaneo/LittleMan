@@ -10,11 +10,11 @@ Project
 
 Currently exists in four parts.
 
-LittleManCore - The library from which everything is run.
+LittleManCollection - The library from which everything is run.
 
-LittleManCompiler - Shell code for a commandline based assembler/compiler using LittleManCore.
+LittleManCompiler - Shell code for a commandline based assembler/compiler using LittleManCollection.
 
-LittleManComputer - Shell code for a commandline based virtual machine using LittleManCore.
+LittleManComputer - Shell code for a commandline based virtual machine using LittleManCollection.
 
 LittleManIDE - Begining of a simple IDE with code debugging.
 
@@ -25,7 +25,7 @@ Address are 12 bits, the zero memory space is a reserved location, nothing may j
 Instruction Set
 ===============
 
-A 4 bit instructions is used, with at 12 bit addressing scheme, packed into 16 bit register.
+A 4 bit instructions is used, with a 12 bit addressing scheme, packed into 16 bit register value.
 
 Terms with an x after them take an address.
 
@@ -33,11 +33,11 @@ Terms with an x after them take an address.
 
 1:  ADDx - Add the value at x to accumulator.
 
-2:  SUBx - Subtract the accumulator by x.
+2:  SUBx - Subtract the accumulator by the value at x.
 
-3:  STAx - Store the acummulator at x.
+3:  STAx - Store the acummulator value at x.
 
-4:  LDAx - Store the value at x, in the accumulator.
+4:  LDAx - Load the value at x, into the accumulator.
 
 5:  BRAx - If x is zero, branch to the value in the accumulator, otherwise branch to x.
 
